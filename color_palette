@@ -1,0 +1,145 @@
+#!/opt/local/bin/ruby
+
+# == Synopsis 
+#   color_palette prints the colors used in an image in order of usage.
+#
+# == Examples
+#   This command prints the 32 most used colors in the image barbie.jpg 
+#     color_palette barbie.jpg
+#
+#   Other examples:
+#     color_palette -n 16 barbie.jpg
+#
+# == Usage 
+#   color_palette [options] image_file
+#
+#   For help use: color_palette -h
+#
+# == Options
+#   -h, --help          Displays help message
+#   -v, --version       Display the version, then exit
+#   -n [NUM]            Set the number of colors to print in the palette (default is 32)
+#
+# == Author
+#   Matthew Shanley
+#
+# == Copyright
+#   Copyright (c) 2008 Matthew Shanley. Licensed under the MIT License:
+#   http://www.opensource.org/licenses/mit-license.php
+
+
+require 'optparse'
+require 'rubygems'
+require 'RMagick'
+require 'rdoc/usage'
+require 'ostruct'
+
+include Magick
+
+
+class App
+  VERSION = '0.0.1'
+  
+  attr_reader :options
+  
+  def initialize(arguments, stdin)
+    @arguments = arguments
+    @stdin = stdin
+    
+    # Set defaults
+    @options = OpenStruct.new
+    @options.num_colors = 32
+  end
+  
+  
+  # Parse options, check arguments, then process the command
+  def run
+    if parsed_options? && arguments_valid?
+      
+      process_arguments
+      process_command
+      
+    else
+      output_usage
+    end
+  end
+  
+  
+  private
+  
+  def parsed_options?
+    # Specify options
+    opts = OptionParser.new
+    opts.on('-v', '--version')  { output_version ; exit 0}
+    opts.on('-h', '--help')     { output_help }
+    opts.on('-n [NUM]')         {|num| @options.num_colors = num.to_i }
+    
+    opts.parse!(@arguments) rescue return false
+    
+    true
+  end
+  
+  def output_options
+    puts "Options:\n"
+    
+    @options.marshal_dump.each do |name, val|
+      puts " #{name} = #{val}"
+    end
+  end
+  
+  # True if required arguments were provided
+  def arguments_valid?
+    true if @arguments.length >= 1
+  end
+  
+  # Setup the arguments
+  def process_arguments
+    # Get the file to work on
+    @img_file = ARGV[0]
+  end
+  
+  def output_help
+    output_version
+    RDoc::usage()    # exits app
+  end
+  
+  def output_usage
+    RDoc::usage('usage')   # gets usage from comments above
+  end
+  
+  def output_version
+    puts "#{File.basename(__FILE__)} version #{VERSION}"
+  end
+  
+  def process_command
+    
+    # Read in image
+    img_array = Image.read(@img_file)
+
+    # Check that there's at least one image
+    if img_array.size < 1
+      abort("Not a valid image.")
+    end
+
+    # Get the first image (we'll only deal with one)
+    img = img_array[0]
+    
+    # Reduce the number of colors in the image to match the number we'll output.
+    # Don't dither the image.
+    img = img.quantize(@options.num_colors, Magick::RGBColorspace, false)
+
+    # Get the histogram of all the colors, sorting by descending value
+    hist = img.color_histogram.sort {|a,b| b[1]<=>a[1]}
+
+    hist.each do |key, value|
+      # TODO Provide options for other forms of output, like RRR, GGG, BBB
+      puts "#{key.to_color(AllCompliance, false, 8)} is #{value}"
+    end
+    
+  end
+end
+
+
+# Create and run the application
+app = App.new(ARGV, STDIN)
+app.run
