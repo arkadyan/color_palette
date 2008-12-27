@@ -1,0 +1,28 @@
+#!/opt/local/bin/ruby
+
+# == Synopsis 
+#   color_palette prints the colors used in an image in order of usage.
+#
+# == Examples
+#   This command prints the 32 most used colors in the image barbie.jpg 
+#     color_palette barbie.jpg
+#
+#   Other examples:
+#     color_palette -n 16 barbie.jpg
+#
+# == Usage 
+#   color_palette [options] image_file
+#
+#   For help use: color_palette -h
+#
+# == Options
+#   -h, --help          Displays help message
+#   -v, --version       Display the version, then exit
+#   -n [NUM]            Set the number of colors to print in the palette (default is 32)
+#
+# == Author
+#   Matthew Shanley
+#
+# == Copyright
+#   Copyright (c) 2008 Matthew Shanley. Licensed under the MIT License:
+#   http://www.opensource.org/licenses/mit-license.php
