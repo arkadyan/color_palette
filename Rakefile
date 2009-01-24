@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rake'
 require 'echoe'
 
-Echoe.new('color_palette', '0.0.1') do |p|
+Echoe.new('color_palette', '0.0.2') do |p|
   p.description = 'Describes the color palette of a given image.'
   p.url = 'http://github.com/lsrs/color_palette/'
   p.author = 'Matthew Shanley'
