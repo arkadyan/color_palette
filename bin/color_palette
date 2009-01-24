@@ -133,7 +133,7 @@ class App
 
     hist.each do |key, value|
       # TODO Provide options for other forms of output, like RRR, GGG, BBB
-      puts "#{key.to_color(AllCompliance, false, 8)} is #{value}"
+      puts "#{key.to_color(AllCompliance, false, 8)}"
     end
     
   end
