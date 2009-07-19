@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = ["bin/color_palette", "README.rdoc"]
   s.files = ["bin/color_palette", "Manifest", "Rakefile", "README.rdoc", "color_palette.gemspec"]
   s.has_rdoc = true
-  s.homepage = %q{http://github.com/lsrs/color_palette/}
+  s.homepage = %q{http://github.com/arkadyan/color_palette/}
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Color_palette", "--main", "README.rdoc"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{color_palette}
