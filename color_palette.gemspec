@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.has_rdoc = true
   s.homepage = %q{http://github.com/arkadyan/color_palette/}
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Color_palette", "--main", "README.rdoc"]
-  s.require_paths = ["lib"]
+  s.require_paths = ["bin"]
   s.rubyforge_project = %q{color_palette}
   s.rubygems_version = %q{1.3.1}
   s.summary = %q{Describes the color palette of a given image.}
